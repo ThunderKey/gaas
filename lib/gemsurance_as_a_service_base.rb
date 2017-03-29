@@ -1,0 +1,2 @@
+module GemsuranceAsAServiceBase
+end
