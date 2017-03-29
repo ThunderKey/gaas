@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path('../lib', __FILE__)
-require 'gemsurance_as_a_service_base/version'
+require 'gaas/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'gemsurance-as-a-service-base'
-  s.version     = GemsuranceAsAServiceBase::VERSION.dup
+  s.name        = 'gaas'
+  s.version     = Gaas::VERSION.dup
   s.platform    = Gem::Platform::RUBY
   s.licenses    = ['MIT']
   s.summary     = 'The base for implementing a rails app which checks your ruby apps for vulnerabilities and outdated gems'
