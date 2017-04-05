@@ -1,9 +1,11 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort("The Rails environment is running in production mode!") if ENV['RAILS_ENV'] == 'production'
 require 'spec_helper'
 require 'rspec/rails'
+# Prevent database truncation if the environment is production
+abort("The Rails environment is running in production mode!") if Rails.env.production?
 require File.join(Gaas::ROOT_PATH, 'spec/dummy/config/environment.rb')
 # Add additional requires below this line. Rails is not loaded until this point!
 
