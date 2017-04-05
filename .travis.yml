@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+  - ruby-2.4.0
+dist: trusty
+addons:
+  code_climate:
+    repo_token: 3f12d785dcf81dd2351e408e00f86af458b28a4c776edf55abe641df95a1f87f
+env:
+  - "RAILS_ENV=test"
+before_script:
+  - bundle exec rake db:migrate
+  - bower install
+script:
+  - bundle exec rspec
+after_success:
+  - bundle exec codeclimate-test-reporter
+notifications:
+  email:
+    - nicolasganz37+travis@gmail.com
