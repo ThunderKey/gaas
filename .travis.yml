@@ -8,7 +8,7 @@ addons:
 env:
   - "RAILS_ENV=test"
 before_script:
-  - bundle exec rake db:migrate
+  - cd spec/dummy; bundle exec rake db:migrate; cd -
   - bower install
 script:
   - bundle exec rspec
