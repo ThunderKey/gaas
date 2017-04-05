@@ -41,10 +41,11 @@ bower.json
 # Ignore Byebug command history file.
 .byebug_history
 
-spec/dummy/db/*.sqlite3
-spec/dummy/db/*.sqlite3-journal
-spec/dummy/log/*.log
-spec/dummy/tmp/
+/spec/dummy/db/*.sqlite3
+/spec/dummy/db/*.sqlite3-journal
+/spec/dummy/log/*.log
+/spec/dummy/tmp/
+/spec/dummy/coverage/
 
 # ignore spec persistence file
 /spec/persistence.txt
