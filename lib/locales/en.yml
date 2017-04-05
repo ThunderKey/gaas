@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    errors:
+      messages:
+        invalid_url: must be a valid URL
+      models:
+        gaas/resource:
+          attributes:
+            path:
+              file_missing: does not contain %{filename}
+              does_not_exist: does not exist
+              not_a_directory: is not a directory
+              relative_path: must be an absolute path
+    attributes:
+      gaas/resource:
+        resource_types:
+          local: Local
+  gem_status:
+    vulnerable: Vulnerable
+    outdated: Outdated
+    current: Current

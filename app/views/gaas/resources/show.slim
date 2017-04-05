@@ -1,0 +1,20 @@
+.row
+  .columns.large-8.large-offset-4
+    h1
+      = @resource.name
+      - unless @resource.build_image_url.blank?
+        = build_image_tag @resource
+
+.row
+  .columns.medium-5.large-4
+    div(data-sticky-container)
+      div(data-sticky data-anchor="resource-data" style="width:100%")
+        = render partial: 'panel', locals: {resource: @resource}
+  #resource-data.columns.medium-7.large-8
+    .card
+      .card-divider In Gemfile
+      .card-section
+        = render partial: 'gaas/gem_infos/list_by_usages', locals: {gem_usages: @resource.gem_usages.where(in_gemfile: true)}
+      .card-divider Dependencies
+      .card-section
+        = render partial: 'gaas/gem_infos/list_by_usages', locals: {gem_usages: @resource.gem_usages.where(in_gemfile: false)}

@@ -1,0 +1,33 @@
+- readonly = defined?(readonly) ? readonly : false
+- color = (defined?(color) && !color.nil?) ? color : true
+
+- if resources.any?
+  table
+    tr
+      th Name
+      th Resource
+      th Outdated Gems
+      th Last Fetch
+      th Status
+      - unless readonly
+        th
+    - resources.sort_by_gem_status.each do |resource|
+      = gem_status_tr(resource.gem_status, color: color) do
+        td
+          = link_to resource.name, gaas_resource_path(resource)
+          - unless resource.build_image_url.blank?
+            = build_image_tag resource
+        td= resource.resource_type
+        td= resource.outdated_gem_versions.count
+        td= resource.fetched_at ? time_tag(resource.fetched_at) : '-'
+        td= resource.fetch_status
+        - unless readonly
+          td.full-width
+            .button-group.small
+              = link_to 'Edit', edit_gaas_resource_path(resource), class: 'button'
+              = button_to 'Delete', gaas_resource_path(resource), method: :delete, class: 'button alert', data: {confirm: 'Are you sure?'}
+- else
+  p No Resources found
+
+- unless readonly
+  = link_to 'New', new_gaas_resource_path, class: 'button'

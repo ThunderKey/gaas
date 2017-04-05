@@ -1,0 +1,13 @@
+h1 #{link_to @gem_version.gem_info.name, @gem_version.gem_info} - #{@gem_version.version}
+
+- if @gem_version.vulnerabilities.any?
+  .callout.alert
+    h2 Vulnerabilities
+
+    .row.small-up-1.medium-up-3.large-up-4
+      - @gem_version.vulnerabilities.each do |vulnerability|
+        .column.column-block
+          = render partial: 'gaas/vulnerabilities/panel', locals: {vulnerability: vulnerability}
+
+h2 Resources
+= render partial: 'gaas/resources/list', locals: {resources: @gem_version.resources, readonly: true}

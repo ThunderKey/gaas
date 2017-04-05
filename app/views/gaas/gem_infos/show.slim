@@ -1,0 +1,46 @@
+- content_for :body_js do
+  javascript:
+    $(document).on('turbolinks:load', function() {
+      var data = #{@versions_data.to_json.html_safe};
+      data.datasets[0].label = '# of installations';
+      drawChart('versionsChart', 'bar', data, {
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              max: #{@versions_data[:datasets][0][:data].max + 1},
+              min: 0,
+              stepSize: 1,
+            }
+          }]
+        }
+      });
+    });
+
+h1= @gem_info.name
+
+.row
+  .small-12.large-6.columns
+    .data-panel
+      li.title= @gem_info.name
+      - if @gem_info.homepage_url
+        li= link_to 'Homepage', @gem_info.homepage_url, target: '_blank'
+      - if @gem_info.source_code_url
+        li= link_to 'Source Code', @gem_info.source_code_url, target: '_blank'
+      - if @gem_info.documentation_url
+        li= link_to 'Documentation', @gem_info.documentation_url, target: '_blank'
+  .small-12.large-6.columns
+    h2 Versions
+
+    canvas#versionsChart
+
+    table
+      tr
+        th Name
+      - @gem_info.gem_versions.sort_by_version(:desc).each do |gem_version|
+        = gem_status_tr(gem_version.gem_status) do
+          td= link_to gem_version.version, gaas_gem_version_path(@gem_info, gem_version)
+
+h2 Resources
+
+= render partial: 'gaas/resources/list', locals: {resources: @gem_info.resources, readonly: true}
