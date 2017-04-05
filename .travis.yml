@@ -9,7 +9,6 @@ env:
   - "RAILS_ENV=test"
 before_script:
   - cd spec/dummy; bundle exec rake db:migrate; cd -
-  - bower install
 script:
   - bundle exec rspec
 after_success:
