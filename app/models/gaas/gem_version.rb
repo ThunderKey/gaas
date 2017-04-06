@@ -9,7 +9,7 @@ class Gaas::GemVersion < ApplicationRecord
   validates :version, presence: true, uniqueness: {scope: :gem_info}
 
   def self.sort_by_version dir = :asc
-    sorted = all.sort_by &:version_object
+    sorted = all.sort_by(&:version_object)
     dir == :asc ? sorted : sorted.reverse
   end
 
