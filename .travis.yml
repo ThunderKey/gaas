@@ -4,7 +4,7 @@ rvm:
 dist: trusty
 addons:
   code_climate:
-    repo_token: 3f12d785dcf81dd2351e408e00f86af458b28a4c776edf55abe641df95a1f87f
+    repo_token: 85c4aa1d323db8705ce4821687a93c638f706e5ddb20028b799654ed6487002b
 env:
   - "RAILS_ENV=test"
 before_script:
