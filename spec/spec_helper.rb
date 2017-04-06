@@ -17,6 +17,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'simplecov'
+
 #require 'capybara/rspec'
 #require './app/controllers/gaas/gem_infos_controller'
 require 'gaas'

@@ -5,6 +5,7 @@ gemspec
 group :test do
   gem 'rspec-rails'
   gem 'rails-controller-testing'
+  gem 'generator_spec'
   gem 'factory_girl'
   gem 'database_cleaner'
   gem 'sqlite3'

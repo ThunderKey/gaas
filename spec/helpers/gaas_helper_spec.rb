@@ -75,4 +75,13 @@ TXT
       end
     end
   end
+
+  describe '#gem_status_tr' do
+    it { expect(helper.gem_status_tr('current'){}).to eq '<tr class="current" title="Current"></tr>' }
+    it { expect(helper.gem_status_tr('outdated'){}).to eq '<tr class="outdated" title="Outdated"></tr>' }
+    it { expect(helper.gem_status_tr('vulnerable'){}).to eq '<tr class="vulnerable" title="Vulnerable"></tr>' }
+
+    it { expect(helper.gem_status_tr('current', color: false){}).to eq '<tr class="" title="Current"></tr>' }
+    it { expect(helper.gem_status_tr('current'){'<br/>'.html_safe}).to eq '<tr class="current" title="Current"><br/></tr>' }
+  end
 end

@@ -16,7 +16,7 @@ RSpec.describe Gaas::GemsuranceService, type: :service do
     expect(service).to receive(:update_gemsurance_report).ordered.and_return true
     expect(service).to receive(:fix_gemsurance_report).ordered
     expect(service).to receive(:load_gems).ordered
-    service.update_gems
+    expect(service.update_gems).to eq true
   end
 
   it 'updates the gemsurance report correctly' do
@@ -43,6 +43,32 @@ RSpec.describe Gaas::GemsuranceService, type: :service do
     expect(resource.fetch_status).to eq 'successful'
   end
 
+  it 'cancels the update if the gemsurance report could not be gotten' do
+    resource = create :empty_local_resource
+    service = described_class.new(resource)
+
+    expect(resource.fetched_at).to eq nil
+    expect(resource.fetch_output).to eq ""
+    expect(resource.fetch_status).to eq "pending"
+
+    Timecop.freeze
+
+    report_file = "#{Gaas.config.private_dir}/gemsurance_reports/#{resource.id}/gemsurance_report.yml"
+    output = %q{Some error...}
+    expect(service).not_to receive(:fix_gemsurance_report)
+    expect(service).not_to receive(:load_gems)
+    expect {
+      expect(Open3).to receive(:capture2e).
+        with(/\Aenv -i HOME="[^"]+" PATH="[^"]+" USER="[^"]+" GEM_HOME="[^"]+" GEM_PATH="[^"]+" gemsurance --format yml --output #{Regexp.escape report_file}/, {chdir: resource.path}).
+        and_return([output, 0])
+      service.update_gemsurance_report
+    }.to change { File.exist? service.dirname }.from(false).to(true)
+
+    expect(resource.fetched_at.to_time.change(usec: 0)).to eq Time.now.change(usec: 0)
+    expect(resource.fetch_output).to eq output
+    expect(resource.fetch_status).to eq 'failed'
+  end
+
   it 'updates the status to failed if the command executes unsuccessful' do
     resource = create :empty_local_resource
     service = described_class.new(resource)
@@ -55,12 +81,10 @@ RSpec.describe Gaas::GemsuranceService, type: :service do
 
     report_file = "#{Gaas.config.private_dir}/gemsurance_reports/#{resource.id}/gemsurance_report.yml"
     output = %q{An error occured}
-    expect {
-      expect(Open3).to receive(:capture2e).
-        with(/\Aenv -i HOME="[^"]+" PATH="[^"]+" USER="[^"]+" GEM_HOME="[^"]+" GEM_PATH="[^"]+" gemsurance --format yml --output #{Regexp.escape report_file}/, {chdir: resource.path}).
-        and_return([output, 0])
-      service.update_gemsurance_report
-    }.to change { File.exist? service.dirname }.from(false).to(true)
+    expect(Open3).to receive(:capture2e).
+      with(/\Aenv -i HOME="[^"]+" PATH="[^"]+" USER="[^"]+" GEM_HOME="[^"]+" GEM_PATH="[^"]+" gemsurance --format yml --output #{Regexp.escape report_file}/, {chdir: resource.path}).
+      and_return([output, 0])
+    expect(service.update_gems).to be false
 
     expect(resource.fetched_at.to_time.change(usec: 0)).to eq Time.now.change(usec: 0)
     expect(resource.fetch_output).to eq output
