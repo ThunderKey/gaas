@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'slim'
   s.add_dependency 'rails', '~> 5.0'
+  s.add_dependency 'sidekiq'
 end

@@ -1,4 +1,6 @@
 require 'rails/all'
+require 'slim'
+require 'sidekiq'
 require 'open3'
 
 require 'gaas/config'
