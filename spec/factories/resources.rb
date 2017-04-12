@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :empty_resource, class: Gaas::Resource do
-    sequence :name {|n| "Test App #{n}" }
+    sequence(:name) {|n| "Test App #{n}" }
 
     trait :local do
       resource_type :local
@@ -21,7 +21,7 @@ FactoryGirl.define do
   end
 
   factory :invalid_resource, class: Gaas::Resource do
-    sequence :name {|n| "Invalid App #{n}" }
+    sequence(:name) {|n| "Invalid App #{n}" }
     path ''
   end
 end

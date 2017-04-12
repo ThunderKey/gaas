@@ -29,7 +29,7 @@ class Gaas::GemsuranceService < ApplicationService
     output, _exit_status = fetcher.update_gemsurance_report resource, gemsurance_yaml_file
     resource.fetch_output = output
     resource.fetched_at = DateTime.now
-    resource.fetch_status = gemsurance_regex.match?(output) ? 'successful' : 'failed'
+    resource.fetch_status = output =~ gemsurance_regex ? 'successful' : 'failed'
     resource.save!
     reset!
     resource.fetch_status == 'successful'
