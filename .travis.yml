@@ -9,6 +9,7 @@ env:
   - "RAILS_ENV=test"
 before_script:
   - cd spec/dummy; bundle exec rake db:migrate; cd -
+  - cd spec/dummy; bin/rails db:environment:set; cd -
 script:
   - bundle exec rspec
 after_script:
